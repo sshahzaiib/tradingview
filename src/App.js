@@ -1,34 +1,52 @@
 import React from "react";
-// import logo from './logo.svg';
-import "./App.css";
-import TradingViewWidget, { BarStyles } from "react-tradingview-widget";
+import TradingViewWidget from "react-tradingview-widget";
 
 const App = () => {
-	const [style, setStyle] = React.useState(BarStyles.BARS);
+  const [params, setParams] = React.useState({})
+  React.useEffect(()=> {
+    const urlParams = new URLSearchParams(window.location.search);
+    setParams({
+      height: +urlParams.get('height'),
+      width: +urlParams.get('width'),
+      barStyle: Style(urlParams.get('bar-style')).toString(),
+    })
+  }, [])
 	return (
-		<>
 			<TradingViewWidget
-				style={style}
+				style={params.barStyle}
 				symbol="NASDAQ:AAPL"
-        // autoSize
-				height="250"
-				width="400"
+				height={params.height}
+				width={params.width}
+        theme='Dark'
 			/>
-			<select onChange={(event) => setStyle(event.target.value)}>
-				<option value={BarStyles.BARS}>Bars</option>
-				<option value={BarStyles.CANDLES}>CANDLES</option>
-				<option value={BarStyles.HOLLOW_CANDLES}>HOLLOW_CANDLES</option>
-				<option value={BarStyles.LINE}>LINE</option>
-				<option value={BarStyles.AREA}>AREA</option>
-				<option value={BarStyles.RENKO}>RENKO</option>
-				<option value={BarStyles.LINE_BREAK}>LINE_BREAK</option>
-				<option value={BarStyles.KAGI}>KAGI</option>
-				<option value={BarStyles.POINT_AND_FIGURE}>
-					POINT_AND_FIGURE
-				</option>
-			</select>
-		</>
 	);
 };
 
 export default App;
+
+function Style(input) {
+  switch (input.toUpperCase()) {
+    case 'BARS':
+      return 0;
+    case 'CANDELS':
+      return 1;
+    case 'HOLLOW_CANDELS':
+      return 9;
+    case 'HEIKIN_ASHI':
+      return 8;
+    case 'LINE':
+      return 2;
+    case 'AREA':
+      return 3;
+    case 'RENKO':
+      return 4;
+    case 'LINE_BREAK':
+      return 7;
+    case 'KAGI':
+      return 5;
+    case 'POINT_AND_FIGURE':
+      return 6;
+    default:
+   
+  }
+}
