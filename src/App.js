@@ -8,7 +8,7 @@ const App = () => {
     setParams({
       height: +urlParams.get('height'),
       width: +urlParams.get('width'),
-      barStyle: Style(urlParams.get('bar-style')).toString(),
+      barStyle: Style((urlParams.get('bar-style') ?? 'Bars').toUpperCase()).toString(),
     })
   }, [])
 	return (
@@ -24,8 +24,8 @@ const App = () => {
 
 export default App;
 
-function Style(input = 'BARS') {
-  switch (input.toUpperCase()) {
+function Style(input) {
+  switch (input) {
     case 'BARS':
       return 0;
     case 'CANDELS':
