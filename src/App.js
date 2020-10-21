@@ -24,7 +24,7 @@ const App = () => {
 
 export default App;
 
-function Style(input) {
+function Style(input = 'BARS') {
   switch (input.toUpperCase()) {
     case 'BARS':
       return 0;
